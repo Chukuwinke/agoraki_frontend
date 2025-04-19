@@ -5,7 +5,7 @@ import Steps from './components/Steps';
 import Whitepaper from './components/Whitepaper';
 import SocialProof from './components/SocialProof';
 import Footer from './components/Footer';
-import './app.css';
+import './App.css';
 
 function App() {
   const handleJoin = e => {
