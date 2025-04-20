@@ -29,6 +29,7 @@ body, #root {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  margin-bottom: 20px;
 }
 
 @media (min-width: 768px) {
