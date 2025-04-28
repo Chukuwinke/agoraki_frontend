@@ -1,10 +1,8 @@
 import React from 'react';
-import Hero from './components/Hero';
-import Benefits from './components/Benefits';
-import Steps from './components/Steps';
-import Whitepaper from './components/Whitepaper';
-import SocialProof from './components/SocialProof';
-import Footer from './components/Footer';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import HomePage from './components/HomePage';
+import KYCPage from './components/KYCPage';
+import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
 function App() {
@@ -16,13 +14,16 @@ function App() {
   };
 
   return (
-    <>
-      <Hero onJoin={handleJoin} />
-      <Benefits />
-      <Steps />
-      <Whitepaper />
-      <Footer />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage onJoin={handleJoin} />} />
+        <Route
+          path="/kyc"
+          element={<ProtectedRoute><KYCPage/></ProtectedRoute>}
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
