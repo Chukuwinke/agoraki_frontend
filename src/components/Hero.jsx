@@ -14,9 +14,7 @@ export default function Hero({ onJoin }) {
           Bridge the physical and digital realms — verify your style, join an exclusive community.
         </p>
         <SubscribeForm />
-        <p style={{ fontSize: '.8rem', color: '#aaa' }}>
-          Be the first to experience Agoraki. Limited spots — invitation only.
-        </p>
+        
       </div>
     </header>
   );
