@@ -74,6 +74,7 @@ body, #root {
   margin-bottom: 1.5rem;
 }
 
+
 @media (min-width: 600px) {
   .hero h1 {
     font-size: 3rem;
@@ -235,3 +236,4 @@ footer {
 .footer-links a:hover {
   color: var(--accent);
 }
+

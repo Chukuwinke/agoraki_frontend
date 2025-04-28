@@ -1,4 +1,5 @@
 import React from 'react';
+import SubscribeForm from './SubscribeForm';
 
 export default function Hero({ onJoin }) {
   return (
@@ -12,10 +13,7 @@ export default function Hero({ onJoin }) {
         <p className="lead">
           Bridge the physical and digital realms — verify your style, join an exclusive community.
         </p>
-        <form onSubmit={onJoin}>
-          <input type="email" name="email" placeholder="Enter your email" required />
-          <button type="submit">Join the Waitlist</button>
-        </form>
+        <SubscribeForm />
         <p style={{ fontSize: '.8rem', color: '#aaa' }}>
           Be the first to experience Agoraki. Limited spots — invitation only.
         </p>

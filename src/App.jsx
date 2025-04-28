@@ -21,7 +21,6 @@ function App() {
       <Benefits />
       <Steps />
       <Whitepaper />
-      <SocialProof />
       <Footer />
     </>
   );

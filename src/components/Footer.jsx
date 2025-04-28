@@ -1,22 +1,20 @@
 // src/components/Footer.jsx
 import React from 'react';
-import { FaTwitter, FaInstagram, FaLinkedin, FaGithub } from 'react-icons/fa';
+import { FaXTwitter, FaInstagram, FaMedium, FaDiscord } from 'react-icons/fa6';
+import { socialLinks } from '../config/socialLinks';
 
 export default function Footer() {
   return (
     <footer>
       <div className="social-links">
-        <a href="https://twitter.com/Agoraki" aria-label="Twitter" target="_blank" rel="noopener">
-          <FaTwitter />
+        <a href={socialLinks.x} aria-label="Twitter" target="_blank" rel="noopener">
+          <FaXTwitter />
         </a>
-        <a href="https://instagram.com/Agoraki" aria-label="Instagram" target="_blank" rel="noopener">
+        <a href={socialLinks.instagram} aria-label="Instagram" target="_blank" rel="noopener">
           <FaInstagram />
         </a>
-        <a href="https://linkedin.com/company/Agoraki" aria-label="LinkedIn" target="_blank" rel="noopener">
-          <FaLinkedin />
-        </a>
-        <a href="https://github.com/Agoraki" aria-label="GitHub" target="_blank" rel="noopener">
-          <FaGithub />
+        <a href={socialLinks.medium} aria-label="LinkedIn" target="_blank" rel="noopener">
+          <FaMedium />
         </a>
       </div>
       <div className="footer-links">
