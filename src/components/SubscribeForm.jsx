@@ -1,31 +1,24 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 export default function SubscribeForm() {
-  const [email, setEmail] = useState('');
-  const [name, setName]   = useState('');
+  const [email, setEmail]   = useState('');
+  const [name, setName]     = useState('');
   const [status, setStatus] = useState('');
 
-  const handleSubmit = async e => {
+  async function handleSubmit(e) {
     e.preventDefault();
-    setStatus('Submitting…');
-    const res = await fetch('/api/subscribeBrevo', {
+    const res = await fetch('/api/subscribe', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, name })
     });
-
-    const data = await res.json().catch(() => null);  // safe JSON parse 
-    if (res.ok) {
-      setStatus(data.message);
-    } else {
-      setStatus(`Error: ${data?.error || res.statusText}`);
-    }
-  };
+    const data = await res.json();
+    setStatus(res.ok ? data.message : `Error: ${data.error}`);
+  }
 
   return (
     <form onSubmit={handleSubmit}>
       <input
-        type="text"
         placeholder="Your name"
         value={name}
         onChange={e => setName(e.target.value)}
