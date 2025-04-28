@@ -23,7 +23,7 @@ export default async function handler(req, res) {
         body: JSON.stringify({
           email,
           attributes: { FIRSTNAME: name },
-          includeListIds: [ /* YOUR_LIST_ID */ ],
+          includeListIds: [ 3 ],
           redirectionUrl: 'https://yourdomain.com/thank-you'  // post-confirm redirect :contentReference[oaicite:8]{index=8}
         })
       });
