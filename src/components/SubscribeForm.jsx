@@ -14,6 +14,13 @@ export default function SubscribeForm() {
     if (!consent) {
       return setStatus('You must agree to receive updates and accept our Privacy Policy.');
     }
+    // ← Log it here:
+    console.log('executeRecaptcha is', executeRecaptcha);  // Should log a function :contentReference[oaicite:0]{index=0}
+
+    if (typeof executeRecaptcha !== 'function') {
+      setStatus('reCAPTCHA not ready—please try again.');
+      return;
+    }
     const token = await executeRecaptcha('subscribe');
     const res = await fetch('/api/subscribe', {
       method: 'POST',
