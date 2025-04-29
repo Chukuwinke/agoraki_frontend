@@ -10,8 +10,10 @@ createRoot(document.getElementById('root')).render(
       reCaptchaKey={import.meta.env.REACT_APP_RECAPTCHA_SITE_KEY}
       scriptProps={{
         async: true,
-        defer: false,
+        defer: true,
+        appendTo: 'head',
       }}
+      type="v3"
     >
       <App />
     </GoogleReCaptchaProvider>
