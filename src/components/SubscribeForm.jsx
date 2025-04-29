@@ -1,5 +1,5 @@
 // src/SubscribeForm.jsx
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export default function SubscribeForm() {
@@ -9,7 +9,7 @@ export default function SubscribeForm() {
   const [consent, setConsent] = useState(false);
   const [status, setStatus]   = useState('');
 
-  const handleSubmit = useCallback(async (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
     if (!consent) {
       return setStatus('You must agree to receive updates and accept our Privacy Policy.');
@@ -30,7 +30,7 @@ export default function SubscribeForm() {
     });
     const data = await res.json();
     setStatus(res.ok ? data.message : `Error: ${data.error}`);
-  }, [executeRecaptcha, email]);
+  }
 
   return (
     <form className="subscribe-form" onSubmit={handleSubmit}>
