@@ -10,6 +10,7 @@ export default async function handler(req, res) {
 
   // 2) Parse authToken cookie for subscriber ID
   const { authToken: subscriberId } = cookie.parse(req.headers.cookie || '');
+  console.log('api/kyc subscriberId cookie:', subscriberId);
   if (!subscriberId) {
     return res.status(401).json({ error: 'Not authenticated' });
   }
