@@ -7,7 +7,7 @@ import App from './App.jsx'
 createRoot(document.getElementById('root')).render(
   
     <GoogleReCaptchaProvider
-      reCaptchaKey={import.meta.env.REACT_APP_RECAPTCHA_SITE_KEY}
+      reCaptchaKey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
       scriptProps={{
         async: true,
         defer: true,
