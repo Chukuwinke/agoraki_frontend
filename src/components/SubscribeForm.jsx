@@ -1,5 +1,5 @@
 // src/SubscribeForm.jsx
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export default function SubscribeForm() {
@@ -9,11 +9,8 @@ export default function SubscribeForm() {
   const [consent, setConsent] = useState(false);
   const [status, setStatus]   = useState('');
 
-  async function handleSubmit(e) {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-    if (!consent) {
-      return setStatus('You must agree to receive updates and accept our Privacy Policy.');
-    }
     // ← Log it here:
     console.log('executeRecaptcha is', executeRecaptcha);  // Should log a function :contentReference[oaicite:0]{index=0}
 
@@ -30,7 +27,7 @@ export default function SubscribeForm() {
     });
     const data = await res.json();
     setStatus(res.ok ? data.message : `Error: ${data.error}`);
-  }
+  }, [executeRecaptcha, email]);
 
   return (
     <form className="subscribe-form" onSubmit={handleSubmit}>
