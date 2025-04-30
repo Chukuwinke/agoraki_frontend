@@ -3,6 +3,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import KYCPage  from './components/KYCPage';
+import './App.css';
 
 export default function App() {
   return (
