@@ -1,14 +1,17 @@
 // src/KYCPage.jsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 export default function KYCPage() {
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [entity, setEntity] = useState('user');
-  const [businessName, setBusinessName] = useState('');
-  const [registration, setRegistration] = useState('');
-  const [wallet, setWallet] = useState('');
-  const [status, setStatus] = useState('');
+  const token = searchParams.get('token');             // JWT from URL
+
+  const [entity, setEntity]         = useState('user');
+  const [businessName, setBusiness] = useState('');
+  const [registration, setReg]      = useState('');
+  const [wallet, setWallet]         = useState('');
+  const [status, setStatus]         = useState('');
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -16,17 +19,18 @@ export default function KYCPage() {
       entity,
       businessName: entity === 'brand' ? businessName : undefined,
       registration: entity === 'brand' ? registration : undefined,
-      wallet: entity === 'user' ? wallet : undefined
+      wallet: entity === 'user' ? wallet : undefined,
+      token   // pass the JWT instead of relying on a cookie
     };
-    const res = await fetch('/api/kyc', {
+
+    const res  = await fetch('/api/kyc', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
       body: JSON.stringify(payload)
     });
     const data = await res.json();
+
     if (res.ok) {
-      // Redirect to dashboard or thank-you page
       navigate('/dashboard');
     } else {
       setStatus(`Error: ${data.error}`);
@@ -68,7 +72,7 @@ export default function KYCPage() {
             <input
               type="text"
               value={businessName}
-              onChange={e => setBusinessName(e.target.value)}
+              onChange={e => setBusiness(e.target.value)}
               required
             />
           </label>
@@ -77,7 +81,7 @@ export default function KYCPage() {
             <input
               type="text"
               value={registration}
-              onChange={e => setRegistration(e.target.value)}
+              onChange={e => setReg(e.target.value)}
               required
             />
           </label>

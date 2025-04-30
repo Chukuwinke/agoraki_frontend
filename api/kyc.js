@@ -1,51 +1,43 @@
 // api/kyc.js
-
-import cookie from 'cookie';
+import jwt from 'jsonwebtoken';
 
 export default async function handler(req, res) {
-  // 1) Only accept POST
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  // 2) Parse authToken cookie for subscriber ID
-  const { authToken: subscriberId } = cookie.parse(req.headers.cookie || '');
-  console.log('api/kyc subscriberId cookie:', subscriberId);
-  if (!subscriberId) {
-    return res.status(401).json({ error: 'Not authenticated' });
+  const { token, entity } = req.body;
+  let subscriberId;
+
+  try {
+    // Verify JWT from the URL
+    const payload = jwt.verify(token, process.env.JWT_SECRET, { algorithms: ['HS256'] });
+    subscriberId = payload.sub;
+  } catch {
+    return res.status(401).json({ error: 'Invalid or missing token' });
   }
 
-  // 3) Read KYC data from body
-  const { entity, businessName, registration, wallet } = req.body;
-
-  // 4) Choose group based on entity
+  // Pick the correct group
   const groupId = entity === 'brand'
     ? process.env.MAILERLITE_BRANDS_GROUP_ID
     : process.env.MAILERLITE_USERS_GROUP_ID;
 
-  try {
-    // 5) Call MailerLite Connect API
-    const assignRes = await fetch(
-      `https://connect.mailerlite.com/api/subscribers/${subscriberId}/groups/${groupId}`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${process.env.MAILERLITE_API_KEY}`,
-          'Content-Type': 'application/json'
-        }
+  // Assign the subscriber to that group
+  const assignRes = await fetch(
+    `https://connect.mailerlite.com/api/subscribers/${subscriberId}/groups/${groupId}`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.MAILERLITE_API_KEY}`,
+        'Content-Type': 'application/json'
       }
-    );
-
-    if (!assignRes.ok) {
-      const err = await assignRes.json();
-      console.error('MailerLite group assignment error:', err);
-      return res.status(assignRes.status).json({ error: err });
     }
+  );
 
-    // 6) Success
-    return res.status(200).json({ message: 'KYC data submitted successfully.' });
-  } catch (err) {
-    console.error('KYC API error:', err);
-    return res.status(500).json({ error: 'Internal server error' });
+  if (!assignRes.ok) {
+    const err = await assignRes.json();
+    return res.status(assignRes.status).json({ error: err });
   }
+
+  return res.status(200).json({ message: 'KYC data submitted successfully.' });
 }

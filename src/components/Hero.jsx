@@ -1,7 +1,7 @@
 import React from 'react';
 import SubscribeForm from './SubscribeForm';
 
-export default function Hero({ onJoin }) {
+export default function Hero() {
   return (
     <header className="hero">
       <video autoPlay muted loop playsInline>

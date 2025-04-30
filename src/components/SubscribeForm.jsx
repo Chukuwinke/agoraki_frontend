@@ -11,27 +11,37 @@ export default function SubscribeForm() {
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-    // ← Log it here:
-    console.log('executeRecaptcha is', executeRecaptcha);  // Should log a function :contentReference[oaicite:0]{index=0}
 
     if (typeof executeRecaptcha !== 'function') {
       setStatus('reCAPTCHA not ready—please try again.');
       return;
     }
-    const token = await executeRecaptcha('subscribe');
-    const res = await fetch('/api/subscribe', {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, token })
-    });
-    const data = await res.json();
-    setStatus(res.ok ? data.message : `Error: ${data.error}`);
-  }, [executeRecaptcha, email]);
+
+    try {
+      // 1) get the token
+      const token = await executeRecaptcha('subscribe');
+
+      // 2) send to our API
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, token })
+      });
+      const data = await res.json();
+
+      // 3) handle the response
+      if (!res.ok) throw new Error(data.error || 'Subscription failed');
+      setStatus(data.message);
+      // optionally, reset form here:
+      // setName(''); setEmail(''); setConsent(false);
+    } catch (err) {
+      console.error('Subscription error:', err);
+      setStatus(`Error: ${err.message}`);
+    }
+  }, [executeRecaptcha, name, email]);
 
   return (
     <form className="subscribe-form" onSubmit={handleSubmit}>
-      {/* Visually-hidden label for accessibility */}
       <label htmlFor="name" className="visually-hidden">Your name</label>
       <input
         id="name"

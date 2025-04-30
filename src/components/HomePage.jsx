@@ -6,10 +6,10 @@ import Whitepaper from './Whitepaper';
 import SocialProof from './SocialProof';
 import Footer from './Footer';
 
-export default function HomePage({ onJoin }) {
+export default function HomePage() {
   return (
     <>
-      <Hero onJoin={onJoin} />
+      <Hero />
       <Benefits />
       <Steps />
       <Whitepaper />
