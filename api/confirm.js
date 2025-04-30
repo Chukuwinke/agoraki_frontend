@@ -2,6 +2,7 @@
 import jwt from 'jsonwebtoken';
 
 export default function handler(req, res) {
+  console.log('JWT_SECRET loaded?', !!process.env.JWT_SECRET);
   const { token } = req.query;
   try {
     // Validate signature and expiry
