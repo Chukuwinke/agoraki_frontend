@@ -44,7 +44,8 @@ export default async function handler(req, res) {
         email,
         fields: { name },
         groups: [ process.env.MAILERLITE_USERS_GROUP_ID ],
-        status: 'unconfirmed'
+        status: 'unconfirmed',
+        resubscribe: true
       })
     }
   );
