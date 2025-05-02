@@ -341,40 +341,95 @@ footer {
   flex: 1 1 auto;                          /* text can wrap but won’t force extra space :contentReference[oaicite:6]{index=6} */ 
 }
 
+/* KYC */
 
-
-.kyc-form {
-  max-width: 480px;
+/* KYC Card Container */
+.kyc-card {
+  max-width: 600px;
   margin: 2rem auto;
-  background: rgba(255,255,255,0.05);
-  padding: 1.5rem;
+  background: #1e1e1e;
   border-radius: var(--radius);
-  color: var(--fg);
+  padding: 2rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
 }
-.kyc-form h2 {
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
+
+/* Progress Bar */
+.progress {
+  height: 4px;
+  background: #333;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
 }
-.kyc-form fieldset {
-  border: none;
-  margin-bottom: 1rem;
+.progress-inner {
+  height: 100%;
+  background: var(--accent);
+  width: 0;
+  transition: width 0.3s ease-in-out;
 }
-.kyc-form label {
+
+/* Form Sections & Fields */
+.form-section { margin-bottom: 1.5rem; }
+.form-section h3 {
+  font-size: 1.1rem;
+  margin-bottom: .75rem;
+  font-weight: 500;
+}
+.form-row {
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
-  font-size: 0.9rem;
 }
-.kyc-form input[type="text"],
-.kyc-form button {
-  padding: 0.75rem;
+.form-row label {
+  margin-bottom: .5rem;
+  font-size: .95rem;
+}
+.form-row input {
+  padding: .75rem 1rem;
+  border: 1px solid #444;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--fg);
+  font-size: 1rem;
+}
+
+/* Submit Button */
+.kyc-card button[type="submit"] {
+  width: 100%;
+  padding: .75rem;
+  background: var(--accent);
   border: none;
   border-radius: var(--radius);
   font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .3s;
 }
-.kyc-form .status {
-  margin-top: 1rem;
-  color: #ffd700;
+.kyc-card button[type="submit"]:hover {
+  background: var(--accent-dark);
 }
+.kyc-card button[disabled] {
+  background: #555;
+  cursor: default;
+}
+
+/* “Before You Start” Checklist */
+.checklist {
+  background: #282828;
+  padding: 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+}
+.checklist li { margin-bottom: .5rem; font-size: .9rem; }
+.kyc-btn-back {
+  margin-top: 20px;
+}
+
+.custom-spacing{
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+.text-red-500 { color: #f56565; }   /* Tailwind’s red-500 hex :contentReference[oaicite:0]{index=0} */
+.text-red-400 { color: #fc8181; }   /* Tailwind’s red-400 hex :contentReference[oaicite:1]{index=1} */
 
 

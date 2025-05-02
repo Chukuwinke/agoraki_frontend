@@ -12,6 +12,9 @@ export default function SubscribeForm() {
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
 
+    // Clear previous status
+    setStatus('');
+
     if (typeof executeRecaptcha !== 'function') {
       setStatus('reCAPTCHA not ready—please try again.');
       return;
@@ -31,9 +34,14 @@ export default function SubscribeForm() {
 
       // 3) handle the response
       if (!res.ok) throw new Error(data.error || 'Subscription failed');
+
+      // Reset form fields
+      setName('');
+      setEmail('');
+      setConsent(false);
+
+      // Show confirmation with email
       setStatus(data.message);
-      // optionally, reset form here:
-      // setName(''); setEmail(''); setConsent(false);
     } catch (err) {
       console.error('Subscription error:', err);
       setStatus(`Error: ${err.message}`);
@@ -78,6 +86,7 @@ export default function SubscribeForm() {
       </label>
 
       <button type="submit">Join Waitlist</button>
+
       {status && <p className="status">{status}</p>}
     </form>
   );

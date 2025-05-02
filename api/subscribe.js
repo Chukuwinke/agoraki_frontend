@@ -8,7 +8,9 @@ export default async function handler(req, res) {
 
   const { name, email, token: recaptchaToken } = req.body;
   if (!email || !recaptchaToken) {
-    return res.status(400).json({ error: 'Email and reCAPTCHA token are required' });
+    return res
+      .status(400)
+      .json({ error: 'Email and reCAPTCHA token are required' });
   }
 
   // 1) Verify reCAPTCHA v3 token
@@ -20,7 +22,7 @@ export default async function handler(req, res) {
       body: new URLSearchParams({
         secret: process.env.RECAPTCHA_SECRET_KEY,
         response: recaptchaToken
-      }),
+      })
     }
   );
   const captchaJson = await captchaRes.json();
@@ -43,7 +45,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         email,
         fields: { name },
-        groups: [ process.env.MAILERLITE_USERS_GROUP_ID ],
+        groups: [process.env.MAILERLITE_USERS_GROUP_ID],
         status: 'unconfirmed',
         resubscribe: true
       })
@@ -73,12 +75,14 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${process.env.MAILERLITE_API_KEY}`
       },
-      body: JSON.stringify({
-        fields: { confirm_token: jwtToken }
-      })
+      body: JSON.stringify({ fields: { confirm_token: jwtToken } })
     }
   );
 
-  // 5) Let MailerLite send its double-opt-in email now
-  return res.status(200).json({ message: 'Confirmation email sent—please check your inbox.' });
+  // 5) Return a message that includes the email address
+  return res
+    .status(200)
+    .json({
+      message: `Confirmation email has been sent to ${email}—please check your inbox.`
+    });
 }
